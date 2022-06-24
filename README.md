@@ -95,7 +95,7 @@ play_2cards_porker
   - 上記が同じランクの場合は、もう一枚のカード同士を比較する
   - 上記が同じランクの場合は引き分け
 - **ハイカード**
-  - 一番強いランクランクを持つカード同士を比較する
+  - 一番強いランクを持つカード同士を比較する
   - 上記が同じランクの場合は、もう一枚のカード同士を比較する
   - 上記が同じランクの場合は引き分け(つまり2枚とも同じ場合)
 
@@ -108,6 +108,11 @@ play_2cards_porker
 # 標準出力例
 
 judge_2cards_porker(cards1, cards2)
-#=> cards1 hand: pare, cards: `6♣️' と '6♦︎', judge: win
+#=> cards1 hand: pare, cards: `6♣️' と '7♦︎', judge: win
 #=> cards2 hand: high card, cards: 'A♥' と 'J♦︎', judge: lose
+
+# 引き分けの場合
+judge_2cards_porker(cards1, cards2)
+#=> cards1 hand: straight flush, cards: `A♣️' と 'K♦︎', judge: draw
+#=> cards2 hand: straight flush, cards: `A♣️' と 'K♦︎', judge: draw
 ```
