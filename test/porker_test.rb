@@ -1,82 +1,49 @@
 require 'minitest/autorun'
 require_relative '../lib/porker.rb'
+require 'byebug'
 
-class SampleTest < Minitest::Test
-  def test_sample
-    # assert_equal 'RUBY', 'ruby'.upcase
-    # p card1 = '2♥'
-    # p card2 = '2♦︎'
+class PorkerTest < Minitest::Test
+  def test_same_rank?
     assert same_rank?('2♥', '2♦︎') #=> true
+    refute same_rank?('2♥', '3♥') #=> false
+  end
+  
+  def test_same_suit?
+    assert same_suit?('2♥', '3♥') #=> true
+    refute same_suit?('2♥', '2♦︎') #=> false
+  end
+  
+  def test_same_card?
+    assert same_card?('3♥', '3♥') #=> true
+    refute same_card?('2♥', '2♦︎') #=> false
+  end
 
-    # p card1 = '2♥'
-    # p card2 = '3♥'
-    # p same_rank?(card1, card2) #=> false
+  def test_pair?
+    assert pair?('2♥', '2♦︎') #=> true
+    refute pair?('2♥', '3♥') #=> false
+  end
 
-    # p card1 = '2♥'
-    # p card2 = '2♦︎'
-    # p same_suit?(card1, card2) #=> false
+  def test_flush?
+    assert flush?('2♥', '3♥') #=> true
+    refute flush?('2♥', '2♦︎') #=> false
+  end
 
-    # p card1 = '2♥'
-    # p card2 = '3♥'
-    # p same_suit?(card1, card2) #=> true
+  def test_straight?
+    assert straight?('2♥', '3♦︎')
+    assert straight?('2♥', 'A♦︎')
+    assert straight?('A♥', '2♦︎')
+    assert straight?('A♥', 'K♦︎')
+    assert straight?('K♥', 'A♦︎')
+    assert straight?('K♥', 'Q♦︎')
 
-    # p card1 = '2♥'
-    # p card2 = '2♦︎'
-    # p same_card?(card1, card2) #=> false
+    refute straight?('2♥', '2♥')
+    refute straight?('2♥', '5♥')
+  end
 
-    # p card1 = '3♥'
-    # p card2 = '3♥'
-    # p same_card?(card1, card2) #=> true
-
-    # alias :pair? :same_rank?
-
-    # p card1 = '2♥'
-    # p card2 = '2♦︎'
-    # p pair?(card1, card2) #=> true
-
-    # p card1 = '2♥'
-    # p card2 = '3♥'
-    # p pair?(card1, card2) #=> false
-
-    # alias :flush? :same_suit?
-
-    # p card1 = '2♥'
-    # p card2 = '2♦︎'
-    # p flush?(card1, card2) #=> false
-
-    # p card1 = '2♥'
-    # p card2 = '3♥'
-    # p flush?(card1, card2) #=> true
-
-    # def straight?(card1, card2)
-    #   index = RANK.index(card1[0])
-    #   next_index = index + 1 == 13 ? 0 : index + 1
-    #   prev_index = index - 1
-    #   card2[0] == RANK[next_index] || card2[0] == RANK[prev_index]
-    # end
-
-    # p card1 = '2♥'
-    # p card2 = '3♦︎'
-    # p straight?(card1, card2)
-
-    # p card1 = '2♥'
-    # p card2 = 'A♦︎'
-    # p straight?(card1, card2)
-
-    # p card1 = 'A♥'
-    # p card2 = '2♦︎'
-    # p straight?(card1, card2)
-
-    # p card1 = 'A♥'
-    # p card2 = 'K♦︎'
-    # p straight?(card1, card2)
-
-    # p card1 = 'K♥'
-    # p card2 = 'A♦︎'
-    # p straight?(card1, card2)
-
-    # p card1 = 'K♥'
-    # p card2 = 'Q♦︎'
-    # p straight?(card1, card2)
+  def test_straight_flush?
+    assert straight_flush?('2♥', '3♥')
+    refute straight_flush?('2♥', '3♦︎')
+    refute straight_flush?('A♥', '3♥')
+    refute straight_flush?('A♥', '5♦︎')
   end
 end
